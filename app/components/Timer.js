@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import TimerInput from './TimerInput.js';
 import TimerButtons from './TimerButtons.js';
 import TimerNotification from './TimerNotification.js';
+import TimerDisplay from './TimerDisplay.js';
 
 function Timer() {
   const [hours, setHours] = useState(0);
@@ -83,13 +84,7 @@ function Timer() {
     <div>
       <TimerInput hours={hours} minutes={minutes} seconds={seconds} onInputChange={onInputChange}/>
       <TimerButtons onStart={start} onStop={stop} onReset={reset}/>
-
-      <div className="timer-circle-container">
-        <svg className="timer-circle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <circle className="time-elapsed" cx="50" cy="50" r="45" />
-        </svg>
-        <span className="time-remaining">{formattedTime}</span>
-      </div>
+      <TimerDisplay formattedTime={formattedTime} />
     </div>
   )
 }
