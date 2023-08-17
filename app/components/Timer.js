@@ -9,6 +9,7 @@ function Timer() {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(5);
   const [seconds, setSeconds] = useState(0);
+  const [formattedTime, setFormattedTime] = useState('00:05:00');
 
   const [timeRemaining, setTimeRemaining] = useState(300);
   const [isRunning, setIsRunning] = useState(false);
@@ -42,6 +43,12 @@ function Timer() {
       onInputChange('hours', hoursLeft);
       onInputChange('minutes', minutesLeft);
       onInputChange('seconds', secondsLeft);
+
+      const formattedHours = hoursLeft < 10 ? `0${hoursLeft}` : `${hoursLeft}`;
+      const formattedMinutes = minutesLeft < 10 ? `0${minutesLeft}` : `${minutesLeft}`;
+      const formattedSeconds = secondsLeft < 10 ? `0${secondsLeft}` : `${secondsLeft}`;
+
+      setFormattedTime(`${formattedHours}:${formattedMinutes}:${formattedSeconds}`);
     }
   }, [isRunning, timeRemaining]);
 
@@ -49,7 +56,7 @@ function Timer() {
     if (field === 'hours') {
       value ? setHours(value) : setHours(0);
     } else if (field === 'minutes') {
-      value ? setMinutes(value) : setMinutes(0);
+      value ? setMinutes(value) : setMinutes(5);
     } else if (field === 'seconds') {
       value ? setSeconds(value) : setSeconds(0);
     }
@@ -68,13 +75,21 @@ function Timer() {
     setHours(0);
     setMinutes(5);
     setSeconds(0);
-    setTimeRemaining(0);
+    setTimeRemaining(300);
+    setFormattedTime('00:05:00');
   };
 
   return (
     <div>
       <TimerInput hours={hours} minutes={minutes} seconds={seconds} onInputChange={onInputChange}/>
       <TimerButtons onStart={start} onStop={stop} onReset={reset}/>
+
+      <div className="timer-circle-container">
+        <svg className="timer-circle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle className="time-elapsed" cx="50" cy="50" r="45" />
+        </svg>
+        <span className="time-remaining">{formattedTime}</span>
+      </div>
     </div>
   )
 }
